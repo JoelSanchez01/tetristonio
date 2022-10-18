@@ -18,7 +18,7 @@ public class GameThread extends Thread {
     @Override
     public void run() {
         byte ticksPS = 1000 / FPS;
-        long startTime = 0;
+        long startTime;
         long sleepTime;
 
         while(running) {
@@ -28,7 +28,7 @@ public class GameThread extends Thread {
             try {
                 c = gameView.getHolder().lockCanvas();
                 synchronized (gameView.getHolder()) {
-                    gameView.onDraw(c);
+                    gameView.draw(c);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
