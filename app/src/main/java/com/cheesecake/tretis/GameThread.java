@@ -3,7 +3,7 @@ package com.cheesecake.tretis;
 import android.graphics.Canvas;
 
 public class GameThread extends Thread {
-    private static final byte FPS = 24;
+    private static final byte FPS = 5;
     private final GameView gameView;
     private boolean running = false;
 
@@ -17,7 +17,7 @@ public class GameThread extends Thread {
 
     @Override
     public void run() {
-        byte ticksPS = 1000 / FPS;
+        long ticksPS = 1000 / FPS;
         long startTime;
         long sleepTime;
 
@@ -28,7 +28,7 @@ public class GameThread extends Thread {
             try {
                 c = gameView.getHolder().lockCanvas();
                 synchronized (gameView.getHolder()) {
-                    gameView.draw(c);
+                    gameView.onDraw(c);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
