@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 
 public class GameThread extends Thread {
     static final long FPS = 20;
-    private GameView gameView;
+    private final GameView gameView;
     private boolean running = false;
 
     public GameThread(GameView view) {
@@ -37,10 +37,8 @@ public class GameThread extends Thread {
 
             sleepTime = ticksPS - (System.currentTimeMillis() - startTime);
             try {
-                if (sleepTime > 0)
-                    sleep(sleepTime);
-                else
-                    sleep(10);
+                if (sleepTime > 0) sleep(sleepTime);
+                else sleep(10);
             } catch (Exception e) {
 
             }
