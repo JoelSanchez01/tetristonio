@@ -100,8 +100,10 @@ public class GameView extends SurfaceView {
 
         clock++;
         if (clock == 20) {
-            if(isFree(r, nf, 0, 1))
+            if (isFree(r, nf, 0, 1))
                 y++;
+            else
+                setBlock();
             clock = 0;
         }
 
@@ -141,6 +143,15 @@ public class GameView extends SurfaceView {
 
     public int nextRotation(int nr) {
         return (nr + 1) % 4;
+    }
+
+    public void setBlock() {
+        screen[y + tetY[nr * 4][nf]][x + tetX[nr * 4][nf]] = nf + 1;
+        screen[y + tetY[nr * 4 + 1][nf]][x + tetX[nr * 4 + 1][nf]] = nf + 1;
+        screen[y + tetY[nr * 4 + 2][nf]][x + tetX[nr * 4 + 2][nf]] = nf + 1;
+        screen[y + tetY[nr * 4 + 3][nf]][x + tetX[nr * 4 + 3][nf]] = nf + 1;
+        nf = (int) (Math.random() * 7);
+        y = 0;
     }
 
     Canvas drawSegment(Canvas canvas, int n, int c, int f) {
