@@ -3,7 +3,7 @@ package com.cheesecake.tretis;
 import android.graphics.Canvas;
 
 public class GameThread extends Thread {
-    static final long FPS = 20;
+    static final long FPS = 50;
     private final GameView gameView;
     private boolean running = false;
 

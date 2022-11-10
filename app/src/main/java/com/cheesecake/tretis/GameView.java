@@ -20,6 +20,8 @@ public class GameView extends SurfaceView {
     int btn = 0;
     int clock = 0;
 
+    Random rand = new Random();
+
     int[][] BTS = new int[][]{{50, 1300, 200, 1450}, {250, 1300, 400, 1450}, {450, 1300, 600, 1450}, {650, 1300, 800, 1450},};
 
     Bitmap[] sprites = new Bitmap[8];
@@ -30,7 +32,22 @@ public class GameView extends SurfaceView {
 
     int[][] tetY = {{0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 1, 0, 1, 1}, {1, 1, 1, 1, 0, 1, 1}, {0, 0, 0, 0, 0, 0, 0}, {1, 1, 1, 1, 1, 0, 1}, {2, 2, 2, 1, 2, 1, 1}, {2, 1, 0, 2, 3, 1, 2}, {1, 1, 1, 0, 0, 0, 0}, {1, 1, 1, 0, 0, 0, 0}, {1, 1, 1, 1, 0, 1, 1}, {0, 0, 0, 1, 0, 1, 1}, {2, 2, 2, 0, 0, 0, 0}, {1, 1, 1, 1, 1, 0, 1}, {0, 0, 0, 1, 2, 1, 1}, {0, 1, 2, 2, 3, 1, 2}};
 
-    int[][] screen = new int[][]{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {1, 2, 3, 4, 1, 2, 3, 1, 4, 0, 0, 0},};
+    int[][] screen = new int[][]{
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {1, 2, 3, 4, 1, 2, 3, 1, 4, 0, 0, 0},};
 
     public GameView(Context context) {
         super(context);
@@ -100,7 +117,7 @@ public class GameView extends SurfaceView {
 
         clock++;
         if (clock == 20) {
-            if (isFree(r, nf, 0, 1))
+            if (isFree(r, nf))
                 y++;
             else
                 setBlock();
@@ -112,8 +129,7 @@ public class GameView extends SurfaceView {
                 if (x > 0) x--;
                 break;
             case 2:
-                Random R = new Random();
-                nf = R.nextInt(7);
+                nf = rand.nextInt(7);
                 break;
             case 3:
                 nr = nextRotation(nr);
@@ -128,9 +144,9 @@ public class GameView extends SurfaceView {
         //este metodo es el encargado de dibujar  *****
     }
 
-    private boolean isFree(int r, int f, int ix, int iy) {
-        int vx = x + ix;
-        int vy = y + ix;
+    private boolean isFree(int r, int f) {
+        int vx = x;
+        int vy = y + 1;
         return vy + maxX(tetY, f, r) < 15 && (screen[vy + tetY[r][f]][vx + tetX[r][f]] == 0 &&
                 screen[vy + tetY[r + 1][f]][vx + tetX[r + 1][f]] == 0 &&
                 screen[vy + tetY[r + 2][f]][vx + tetX[r + 2][f]] == 0 &&
@@ -150,7 +166,7 @@ public class GameView extends SurfaceView {
         screen[y + tetY[nr * 4 + 1][nf]][x + tetX[nr * 4 + 1][nf]] = nf + 1;
         screen[y + tetY[nr * 4 + 2][nf]][x + tetX[nr * 4 + 2][nf]] = nf + 1;
         screen[y + tetY[nr * 4 + 3][nf]][x + tetX[nr * 4 + 3][nf]] = nf + 1;
-        nf = (int) (Math.random() * 7);
+        nf = rand.nextInt(7);
         y = 0;
     }
 
