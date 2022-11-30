@@ -1,9 +1,10 @@
 package com.cheesecake.tretis;
 
+import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 
 public class GameThread extends Thread {
-    static final long FPS = 50;
+    static final long FPS = 20;
     private final GameView gameView;
     private boolean running = false;
 
@@ -15,6 +16,7 @@ public class GameThread extends Thread {
         running = run;
     }
 
+    @SuppressLint("WrongCall")
     @Override
     public void run() {
         long ticksPS = 1000 / FPS;

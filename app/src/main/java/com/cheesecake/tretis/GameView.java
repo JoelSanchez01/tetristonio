@@ -18,6 +18,7 @@ public class GameView extends SurfaceView {
     Paint pen = new Paint();
     int x = 5, y = 0, btn;
     int nf = 0, nr = 0, clk = 0;
+    int puntos = 0;
 
     int[][] tetX = {
             {0, 0, 0, 2, 0, 0, 0},
@@ -58,10 +59,10 @@ public class GameView extends SurfaceView {
     };
 
     int[][] btns = new int[][]{
-            {50, 1300, 200, 1450},
-            {250, 1300, 400, 1450},
-            {450, 1300, 600, 1450},
-            {650, 1300, 800, 1450},
+            {350, 1850, 500, 2000},
+            {550, 1850, 700, 2000},
+            {750, 1850, 900, 2000},
+            {950, 1850,1100, 2000},
     };
 
     Bitmap[] sprites = new Bitmap[8];
@@ -78,9 +79,9 @@ public class GameView extends SurfaceView {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {1, 2, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1},
     };
 
 
@@ -130,11 +131,11 @@ public class GameView extends SurfaceView {
         int r;
         pen.setTextSize(80);
         pen.setStrokeWidth(4);
-        pen.setColor(Color.GREEN);
+        pen.setColor(Color.RED);
         canvas.drawColor(Color.BLACK);
         for (i = 0; i < scn.length; i++) {
             for (j = 0; j < scn[0].length; j++) {
-                canvas.drawBitmap(sprites[scn[i][j]], 300 + size * j, 300 + size * i, pen);
+                canvas.drawBitmap(sprites[scn[i][j]], 200 + size * j, 300 + size * i, pen);
             }
         }
         r = nr * 4;
@@ -169,7 +170,10 @@ public class GameView extends SurfaceView {
                     }
                 break;
             case 2:
-                nf = (int) (Math.random() * 7);
+                if (x > 0)
+                    if (esLibre(0, 1)) {
+                        y++;
+                    }
                 break;
             case 3:
                 nr = nextRot(nr);
@@ -219,12 +223,32 @@ public class GameView extends SurfaceView {
 
     void verficarLineas() {
         int i;
+        int veces = 0;
         for (i = 0; i < scn.length; i++) {
             if (esCompleta(i)) {
                 //recorrer las filas es metodo
                 recorrerFilas(i);
+                veces++;
             }
         }
+        switch (veces){
+            case 0:
+                break;
+            case 1:
+                puntos+=100;
+                break;
+            case 2:
+                puntos+=200;
+                break;
+            case 3:
+                puntos+=300;
+                break;
+            default:
+                puntos+=400;
+
+        }
+        veces = 0;
+        System.out.println(puntos);
     }
 
     void recorrerFilas(int n) {
@@ -243,7 +267,7 @@ public class GameView extends SurfaceView {
     }
 
     void dibujarSegmento(Canvas canvas, int n, int c, int f) {
-        canvas.drawBitmap(sprites[n], 300 + size * c, 300 + size * f, pen);
+        canvas.drawBitmap(sprites[n], 200 + size * c, 300 + size * f, pen);
     }
 
     boolean esLibre(int ix, int iy) {
